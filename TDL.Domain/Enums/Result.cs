@@ -1,8 +1,7 @@
-namespace TDL.Domain.Enums
+namespace TDL.Domain.Enums;
+
+public enum Result
 {
-  public enum Result
-  {
-    success,
-    failed
-  }
+  success,
+  failed
 }

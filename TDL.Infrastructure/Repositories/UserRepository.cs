@@ -1,34 +1,61 @@
-using TDL.Application.Interfaces;
+using MongoDB.Driver;
+using TDL.Application.Interfaces.Repositories;
 using TDL.Domain.Entities;
 using TDL.Domain.Enums;
+using TDL.Infrastructure.Db;
 
 namespace TDL.Infrastructure.Repositories
 {
-  public class UserRepository : IRepositories<User>
+  public class UserRepository : IUserRepository
   {
-    public Task<Result> Create(User entity)
+    private IMongoCollection<UserEntity> _users;
+
+    public UserRepository(MongoDbConnection mongodb)
     {
-      throw new NotImplementedException();
+      _users = mongodb.GetCollection<UserEntity>("users");
     }
 
-    public Task<Result> DeleteAsync(string id)
+    public async Task<Result> CreateAsync(UserEntity entity)
     {
-      throw new NotImplementedException();
+      await _users.InsertOneAsync(entity);
+      return Result.success;
     }
 
-    public Task<List<User>> GetAllAsync()
+    public async Task<Result> DeleteAsync(string id)
     {
-      throw new NotImplementedException();
+      var filter = Builders<UserEntity>.Filter.Eq(u => u.Id, id);
+      var result = await _users.DeleteOneAsync(filter);
+
+      if (result.DeletedCount > 0)
+      {
+        return Result.success;
+      }
+      return Result.failed;
     }
 
-    public Task<User> GetAsync(User entity)
+    public async Task<List<UserEntity>> GetAllAsync()
     {
-      throw new NotImplementedException();
+      var users = await _users.Find(task => true).ToListAsync();
+      return users;
     }
 
-    public Task<Result> UpdateAsync(string id)
+    public async Task<UserEntity> GetByIdAsync(string id)
     {
-      throw new NotImplementedException();
+      var filter = Builders<UserEntity>.Filter.Eq(u => u.Id, id);
+      var task = await _users.Find(filter).FirstOrDefaultAsync();
+      return task;
+    }
+
+    public async Task<Result> UpdateAsync(UserEntity entity)
+    {
+      var filter = Builders<UserEntity>.Filter.Eq(u => u.Id, entity.Id);
+      var result = await _users.ReplaceOneAsync(filter, entity);
+
+      if (result.ModifiedCount > 0)
+      {
+        return Result.success;
+      }
+      return Result.failed;
     }
   }
 }

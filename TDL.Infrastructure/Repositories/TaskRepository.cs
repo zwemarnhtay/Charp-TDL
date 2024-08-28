@@ -1,33 +1,63 @@
-using TDL.Application.Interfaces;
+using MongoDB.Driver;
+using TDL.Application.Interfaces.Repositories;
+using TDL.Domain.Entities;
 using TDL.Domain.Enums;
+using TDL.Infrastructure.Db;
 
-namespace TDL.Infrastructure.Repositories
+namespace TDL.Infrastructure.Repositories;
+
+public class TaskRepository : ITaskRepository
 {
-  public class TaskRepository : IRepositories<Task>
+  private readonly IMongoCollection<TaskEntity> _tasks;
+
+  public TaskRepository(MongoDbConnection mongodb)
   {
-    public Task<Result> Create(Task entity)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<Result> DeleteAsync(string id)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<List<Task>> GetAllAsync()
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<Task> GetAsync(Task entity)
-    {
-      throw new NotImplementedException();
-    }
-
-    public Task<Result> UpdateAsync(string id)
-    {
-      throw new NotImplementedException();
-    }
+    _tasks = mongodb.GetCollection<TaskEntity>("tasks");
   }
+
+  public async Task<Result> CreateAsync(TaskEntity entity)
+  {
+    await _tasks.InsertOneAsync(entity);
+    return Result.success;
+  }
+
+  public async Task<Result> DeleteAsync(string id)
+  {
+    var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, id);
+    var result = await _tasks.DeleteOneAsync(filter);
+
+    if (result.DeletedCount > 0)
+    {
+      return Result.success;
+    }
+    return Result.failed;
+  }
+
+  public async Task<List<TaskEntity>> GetAllByUserIdAsync(string userId)
+  {
+    var filter = Builders<TaskEntity>.Filter.Eq(t => t.UserId, userId);
+
+    var tasks = await _tasks.Find(filter).ToListAsync();
+    return tasks;
+  }
+
+  public async Task<TaskEntity> GetByIdAsync(string id)
+  {
+    var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, id);
+    var task = await _tasks.Find(filter).FirstOrDefaultAsync();
+    return task;
+  }
+
+  public async Task<Result> UpdateAsync(TaskEntity entity)
+  {
+    var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, entity.Id);
+    var result = await _tasks.ReplaceOneAsync(filter, entity);
+
+    if (result.ModifiedCount > 0)
+    {
+      return Result.success;
+    }
+    return Result.failed;
+  }
+
 }
