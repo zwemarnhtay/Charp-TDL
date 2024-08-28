@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Charp-TDL.API", "Charp-TDL.API\Charp-TDL.API.csproj", "{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Domain", "TDL.Domain\TDL.Domain.csproj", "{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Application", "TDL.Application\TDL.Application.csproj", "{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Infrastructure", "TDL.Infrastructure\TDL.Infrastructure.csproj", "{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09516276-9788-4AA5-B86B-C32DFF8E43BE}
+	EndGlobalSection
+EndGlobal
