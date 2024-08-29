@@ -1,0 +1,6 @@
+@TDL.API_HostAddress = http://localhost:5039
+
+GET {{TDL.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

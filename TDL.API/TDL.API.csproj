@@ -4,11 +4,16 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Charp_TDL.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TDL.Application\TDL.Application.csproj" />
+    <ProjectReference Include="..\TDL.Infrastructure\TDL.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

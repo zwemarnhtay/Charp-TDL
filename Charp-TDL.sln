@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Charp-TDL.API", "Charp-TDL.API\Charp-TDL.API.csproj", "{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.Domain", "TDL.Domain\TDL.Domain.csproj", "{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Domain", "TDL.Domain\TDL.Domain.csproj", "{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.Application", "TDL.Application\TDL.Application.csproj", "{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Application", "TDL.Application\TDL.Application.csproj", "{310B7BC6-C540-450F-AA2D-2A50E6A0EE7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.Infrastructure", "TDL.Infrastructure\TDL.Infrastructure.csproj", "{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.Infrastructure", "TDL.Infrastructure\TDL.Infrastructure.csproj", "{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.API", "TDL.API\TDL.API.csproj", "{335FCC0F-83FE-401C-95EC-05A9765CA998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95355FE3-8AE1-4D3B-B586-40A4BE6BD06A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A8EA077-A6BE-4AAF-8BFB-34DAE4B0DBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
