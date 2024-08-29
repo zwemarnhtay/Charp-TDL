@@ -6,7 +6,7 @@ using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Tasks.Commands.Create;
 
-public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto<TaskDto>>
+public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto>
 {
   private readonly ITaskRepository _taskRepository;
 
@@ -15,7 +15,7 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto<
     _taskRepository = taskRepository;
   }
 
-  public async Task<ResponseDto<TaskDto>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
   {
     var task = new TaskEntity
     {
@@ -31,7 +31,7 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto<
 
     if (result != Result.success)
     {
-      return new ResponseDto<TaskDto>
+      return new ResponseDto
       {
         StatusCode = ResponseStatusCode.BadRequest,
         IsSuccess = false,
@@ -39,7 +39,7 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto<
       };
     }
 
-    return new ResponseDto<TaskDto>
+    return new ResponseDto
     {
       StatusCode = ResponseStatusCode.OK,
       IsSuccess = true,

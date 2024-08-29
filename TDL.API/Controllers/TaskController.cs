@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TDL.Application.DTOs;
 using TDL.Application.Usecases.Tasks.Commands.Create;
 
 namespace TDL.API.Controllers;
@@ -19,7 +18,7 @@ public class TaskController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> CreateTask(CreateTaskCommand request, CancellationToken cancelToken)
   {
-    ResponseDto<TaskDto> result = await _mediator.Send(request, cancelToken);
+    var result = await _mediator.Send(request, cancelToken);
     return Content(Newtonsoft.Json.JsonConvert.SerializeObject(result), "application/json");
   }
 }
