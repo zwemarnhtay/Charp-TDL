@@ -17,7 +17,7 @@ public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto>
 
   public async Task<ResponseDto> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
   {
-    var result = await _TaskRepository.DeleteAsync(request.id);
+    var result = await _TaskRepository.DeleteAsync(request.id, cancellationToken);
 
     if (result == Result.failed)
     {

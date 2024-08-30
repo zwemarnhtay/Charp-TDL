@@ -15,7 +15,7 @@ public class GetTaskListByUserIdHandler : IRequestHandler<GetTaskListByUserIdQue
 
   public async Task<List<TaskDto>?> Handle(GetTaskListByUserIdQuery request, CancellationToken cancellationToken)
   {
-    var list = await _taskRepository.GetAllByUserIdAsync(request.UserId);
+    var list = await _taskRepository.GetAllByUserIdAsync(request.UserId, cancellationToken);
 
     if (list == null) return null;
 

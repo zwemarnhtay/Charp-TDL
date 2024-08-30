@@ -15,16 +15,16 @@ public class TaskRepository : IRepository<TaskEntity>, ITaskRepository
     _tasks = mongodb.GetCollection<TaskEntity>("tasks");
   }
 
-  public async Task<Result> CreateAsync(TaskEntity entity)
+  public async Task<Result> CreateAsync(TaskEntity entity, CancellationToken cancelToken)
   {
-    await _tasks.InsertOneAsync(entity);
+    await _tasks.InsertOneAsync(entity, cancellationToken: cancelToken);
     return Result.success;
   }
 
-  public async Task<Result> DeleteAsync(string id)
+  public async Task<Result> DeleteAsync(string id, CancellationToken cancelToken)
   {
     var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, id);
-    var result = await _tasks.DeleteOneAsync(filter);
+    var result = await _tasks.DeleteOneAsync(filter, cancelToken);
 
     if (result.DeletedCount > 0)
     {
@@ -33,25 +33,25 @@ public class TaskRepository : IRepository<TaskEntity>, ITaskRepository
     return Result.failed;
   }
 
-  public async Task<List<TaskEntity>> GetAllByUserIdAsync(string userId)
+  public async Task<List<TaskEntity>> GetAllByUserIdAsync(string userId, CancellationToken cancelToken)
   {
     var filter = Builders<TaskEntity>.Filter.Eq(t => t.UserId, userId);
 
-    var tasks = await _tasks.Find(filter).ToListAsync();
+    var tasks = await _tasks.Find(filter).ToListAsync(cancelToken);
     return tasks;
   }
 
-  public async Task<TaskEntity> GetByIdAsync(string id)
+  public async Task<TaskEntity> GetByIdAsync(string id, CancellationToken cancelToken)
   {
     var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, id);
-    var task = await _tasks.Find(filter).FirstOrDefaultAsync();
+    var task = await _tasks.Find(filter).FirstOrDefaultAsync(cancelToken);
     return task;
   }
 
-  public async Task<Result> UpdateAsync(TaskEntity entity)
+  public async Task<Result> UpdateAsync(TaskEntity entity, CancellationToken cancelToken)
   {
     var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, entity.Id);
-    var result = await _tasks.ReplaceOneAsync(filter, entity);
+    var result = await _tasks.ReplaceOneAsync(filter, entity, cancellationToken: cancelToken);
 
     if (result.ModifiedCount > 0)
     {

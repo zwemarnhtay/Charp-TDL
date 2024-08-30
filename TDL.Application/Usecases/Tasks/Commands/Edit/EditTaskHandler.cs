@@ -27,7 +27,7 @@ public class EditTaskHandler : IRequestHandler<EditTaskCommand, ResponseDto>
       UserId = request.UserId,
     };
 
-    var result = await _taskRepository.UpdateAsync(task);
+    var result = await _taskRepository.UpdateAsync(task, cancellationToken);
 
     if (result == Result.failed)
     {

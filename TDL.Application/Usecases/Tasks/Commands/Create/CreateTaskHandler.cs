@@ -27,7 +27,7 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto>
       UserId = request.UserId,
     };
 
-    var result = await _taskRepository.CreateAsync(task);
+    var result = await _taskRepository.CreateAsync(task, cancellationToken);
 
     if (result != Result.success)
     {

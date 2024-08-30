@@ -39,7 +39,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto>
       Password = request.Password,
     };
 
-    var result = await _repository.CreateAsync(user);
+    var result = await _repository.CreateAsync(user, cancellationToken);
 
     if (result is Result.failed)
     {
