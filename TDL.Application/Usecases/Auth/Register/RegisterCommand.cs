@@ -1,8 +1,7 @@
 using MediatR;
+using TDL.Application.DTOs;
 
 namespace TDL.Application.Usecases.Auth.Register;
 
-public class RegisterCommand : IRequest<int>
-{
+public record RegisterCommand(string Name, string Email, string Password, string Repassword) : IRequest<ResponseDto>;
 
-}

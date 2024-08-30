@@ -39,11 +39,18 @@ namespace TDL.Infrastructure.Repositories
       return users;
     }
 
+    public async Task<UserEntity> GetByEmailAsync(string email)
+    {
+      var filter = Builders<UserEntity>.Filter.Eq(u => u.Email, email);
+      var user = await _users.Find(filter).FirstOrDefaultAsync();
+      return user;
+    }
+
     public async Task<UserEntity> GetByIdAsync(string id)
     {
       var filter = Builders<UserEntity>.Filter.Eq(u => u.Id, id);
-      var task = await _users.Find(filter).FirstOrDefaultAsync();
-      return task;
+      var user = await _users.Find(filter).FirstOrDefaultAsync();
+      return user;
     }
 
     public async Task<Result> UpdateAsync(UserEntity entity)
