@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Domain.Entities;
 using TDL.Infrastructure.Db;
 using TDL.Infrastructure.Repositories;
 
@@ -17,6 +18,8 @@ public static class DependencyInjection
       new MongoDbConnection(connectionString, databaseName)
       );
 
+    services.AddScoped<IRepository<TaskEntity>, TaskRepository>();
+    services.AddScoped<IRepository<UserEntity>, UserRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
     services.AddScoped<ITaskRepository, TaskRepository>();
 

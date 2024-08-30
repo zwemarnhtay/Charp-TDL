@@ -11,11 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Usecases\Tasks\Queries\Detail\" />
-    <Folder Include="Usecases\Tasks\Queries\List\" />
     <Folder Include="Usecases\Tasks\Commands\Delete\" />
-    <Folder Include="Usecases\Tasks\Queries\" />
-    <Folder Include="Usecases\Tasks\Commands\Update\" />
+    <Folder Include="Usecases\Tasks\Commands\Edit\" />
   </ItemGroup>
 
   <ItemGroup>

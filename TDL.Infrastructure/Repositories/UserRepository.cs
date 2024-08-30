@@ -6,7 +6,7 @@ using TDL.Infrastructure.Db;
 
 namespace TDL.Infrastructure.Repositories
 {
-  public class UserRepository : IUserRepository
+  public class UserRepository : IRepository<UserEntity>, IUserRepository
   {
     private IMongoCollection<UserEntity> _users;
 

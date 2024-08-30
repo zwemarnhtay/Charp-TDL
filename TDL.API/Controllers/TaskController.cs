@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TDL.Application.Usecases.Tasks.Commands.Create;
+using TDL.Application.Usecases.Tasks.Queries.Detail;
+using TDL.Application.Usecases.Tasks.Queries.List;
 
 namespace TDL.API.Controllers;
 
@@ -19,6 +21,23 @@ public class TaskController : ControllerBase
   public async Task<IActionResult> CreateTask(CreateTaskCommand request, CancellationToken cancelToken)
   {
     var result = await _mediator.Send(request, cancelToken);
-    return Content(Newtonsoft.Json.JsonConvert.SerializeObject(result), "application/json");
+
+    return result.IsSuccess ? Ok(result) : BadRequest(result);
+  }
+
+  [HttpGet("id")]
+  public async Task<IActionResult> GetTask(string id, CancellationToken cancelToken)
+  {
+    var result = await _mediator.Send(new GetTaskByIdQuery(id), cancelToken);
+
+    return result is not null ? Ok(result) : NotFound();
+  }
+
+  [HttpGet("userId")]
+  public async Task<IActionResult> GetTaskList(string userId, CancellationToken cancelToken)
+  {
+    var result = await _mediator.Send(new GetTaskListByUserIdQuery(userId), cancelToken);
+
+    return result is not null ? Ok(result) : NotFound();
   }
 }

@@ -8,9 +8,9 @@ namespace TDL.Application.Usecases.Tasks.Commands.Create;
 
 public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto>
 {
-  private readonly ITaskRepository _taskRepository;
+  private readonly IRepository<TaskEntity> _taskRepository;
 
-  public CreateTaskHandler(ITaskRepository taskRepository)
+  public CreateTaskHandler(IRepository<TaskEntity> taskRepository)
   {
     _taskRepository = taskRepository;
   }

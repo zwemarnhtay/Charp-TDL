@@ -6,7 +6,7 @@ using TDL.Infrastructure.Db;
 
 namespace TDL.Infrastructure.Repositories;
 
-public class TaskRepository : ITaskRepository
+public class TaskRepository : IRepository<TaskEntity>, ITaskRepository
 {
   private readonly IMongoCollection<TaskEntity> _tasks;
 
