@@ -19,7 +19,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto>
 
   public async Task<ResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
   {
-    var isExisted = await _userRepository.GetByEmailAsync(request.Email);
+    var isExisted = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
     if (isExisted != null)
     {

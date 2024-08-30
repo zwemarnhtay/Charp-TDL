@@ -1,5 +1,6 @@
+using MediatR;
+using TDL.Application.DTOs;
+
 namespace TDL.Application.Usecases.Auth.Login;
 
-public class LoginCommand
-{
-}
+public record LoginCommand(string email, string password) : IRequest<UserDto>;
