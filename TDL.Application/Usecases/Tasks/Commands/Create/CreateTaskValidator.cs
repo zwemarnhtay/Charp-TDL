@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace TDL.Application.Usecases.Tasks.Commands.Create;
 
-public class CreateTaskCommandValidator : AbstractValidator<CreateTaskCommand>
+public class CreateTaskValidator : AbstractValidator<CreateTaskCommand>
 {
-  public CreateTaskCommandValidator()
+  public CreateTaskValidator()
   {
     RuleFor(task => task.Title)
       .NotEmpty()

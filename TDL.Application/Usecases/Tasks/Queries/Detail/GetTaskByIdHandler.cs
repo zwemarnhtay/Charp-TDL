@@ -14,7 +14,7 @@ public class GetTaskByIdHandler : IRequestHandler<GetTaskByIdQuery, TaskDto>
     _taskRepository = taskRepository;
   }
 
-  public async Task<TaskDto> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
+  public async Task<TaskDto?> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
   {
     var task = await _taskRepository.GetByIdAsync(request.Id);
 

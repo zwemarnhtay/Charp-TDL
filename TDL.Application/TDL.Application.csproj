@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Usecases\Tasks\Commands\Delete\" />
-    <Folder Include="Usecases\Tasks\Commands\Edit\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.2" />
     <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
