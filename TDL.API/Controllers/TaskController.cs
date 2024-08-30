@@ -1,3 +1,4 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TDL.Application.Usecases.Tasks.Commands.Create;
@@ -11,15 +12,23 @@ namespace TDL.API.Controllers;
 public class TaskController : ControllerBase
 {
   private readonly IMediator _mediator;
+  private readonly IValidator<CreateTaskCommand> _createValidator;
 
-  public TaskController(IMediator mediator)
+  public TaskController(IMediator mediator, IValidator<CreateTaskCommand> createValidator)
   {
     _mediator = mediator;
+    _createValidator = createValidator;
   }
 
   [HttpPost]
   public async Task<IActionResult> CreateTask(CreateTaskCommand request, CancellationToken cancelToken)
   {
+    var validator = await _createValidator.ValidateAsync(request, cancelToken);
+
+    if (!validator.IsValid)
+    {
+      return BadRequest(validator.Errors);
+    }
     var result = await _mediator.Send(request, cancelToken);
 
     return result.IsSuccess ? Ok(result) : BadRequest(result);
