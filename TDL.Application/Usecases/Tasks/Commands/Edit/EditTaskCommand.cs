@@ -3,7 +3,7 @@ using TDL.Application.DTOs;
 
 namespace TDL.Application.Usecases.Tasks.Commands.Edit;
 
-public class EditTaskCommand : IRequest<ResponseDto>
+public class EditTaskCommand : IRequest<ResponseDto<TaskDto>>
 {
   public string Id { get; set; }
   public string Title { get; set; }

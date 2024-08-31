@@ -6,7 +6,7 @@ using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Tasks.Commands.Delete;
 
-public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto>
+public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto<TaskDto>>
 {
   private readonly IRepository<TaskEntity> _TaskRepository;
 
@@ -15,25 +15,15 @@ public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto>
     _TaskRepository = taskRepository;
   }
 
-  public async Task<ResponseDto> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto<TaskDto>> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
   {
     var result = await _TaskRepository.DeleteAsync(request.id, cancellationToken);
 
     if (result == Result.failed)
     {
-      return new ResponseDto
-      {
-        StatusCode = ResponseStatusCode.NotFound,
-        IsSuccess = false,
-        Message = "failed to delete"
-      };
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "fail to delete");
     }
 
-    return new ResponseDto
-    {
-      StatusCode = ResponseStatusCode.OK,
-      IsSuccess = false,
-      Message = "deleted success"
-    };
+    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "deleted success");
   }
 }

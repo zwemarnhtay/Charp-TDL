@@ -46,6 +46,6 @@ public class AuthController : ControllerBase
 
     var result = await _mediator.Send(request, cancelToken);
 
-    return result != null ? Ok(result) : BadRequest(result);
+    return result.IsSuccess ? Ok(result) : BadRequest(result);
   }
 }

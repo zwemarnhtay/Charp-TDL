@@ -6,7 +6,7 @@ using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Auth.Register;
 
-public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto>
+public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<UserDto>>
 {
   private readonly IRepository<UserEntity> _repository;
   private readonly IUserRepository _userRepository;
@@ -17,18 +17,13 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto>
     _userRepository = userRepository;
   }
 
-  public async Task<ResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto<UserDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
   {
     var isExisted = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
     if (isExisted != null)
     {
-      return new ResponseDto
-      {
-        StatusCode = ResponseStatusCode.Conflict,
-        IsSuccess = false,
-        Message = "this email has already registered"
-      };
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.Conflict, "this email has already registered");
     }
 
     var user = new UserEntity
@@ -43,19 +38,9 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto>
 
     if (result is Result.failed)
     {
-      return new ResponseDto
-      {
-        StatusCode = ResponseStatusCode.BadRequest,
-        IsSuccess = true,
-        Message = "falied to register new account"
-      };
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.BadRequest, "failed to register new account");
     }
 
-    return new ResponseDto
-    {
-      StatusCode = ResponseStatusCode.OK,
-      IsSuccess = true,
-      Message = "success registeration"
-    };
+    return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "registered success");
   }
 }

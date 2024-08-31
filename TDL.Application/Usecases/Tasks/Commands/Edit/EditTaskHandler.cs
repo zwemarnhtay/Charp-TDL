@@ -6,7 +6,7 @@ using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Tasks.Commands.Edit;
 
-public class EditTaskHandler : IRequestHandler<EditTaskCommand, ResponseDto>
+public class EditTaskHandler : IRequestHandler<EditTaskCommand, ResponseDto<TaskDto>>
 {
   private readonly IRepository<TaskEntity> _taskRepository;
 
@@ -15,7 +15,7 @@ public class EditTaskHandler : IRequestHandler<EditTaskCommand, ResponseDto>
     _taskRepository = taskRepository;
   }
 
-  public async Task<ResponseDto> Handle(EditTaskCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto<TaskDto>> Handle(EditTaskCommand request, CancellationToken cancellationToken)
   {
     var task = new TaskEntity
     {
@@ -31,19 +31,9 @@ public class EditTaskHandler : IRequestHandler<EditTaskCommand, ResponseDto>
 
     if (result == Result.failed)
     {
-      return new ResponseDto
-      {
-        StatusCode = ResponseStatusCode.NotFound,
-        IsSuccess = false,
-        Message = "You can't edit this task"
-      };
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "fail to edit");
     }
 
-    return new ResponseDto
-    {
-      StatusCode = ResponseStatusCode.OK,
-      IsSuccess = true,
-      Message = "edited task success"
-    };
+    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "edited success");
   }
 }

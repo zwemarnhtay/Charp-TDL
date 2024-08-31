@@ -45,7 +45,7 @@ public class TaskController : ControllerBase
   {
     var result = await _mediator.Send(new GetTaskByIdQuery(id), cancelToken);
 
-    return result is not null ? Ok(result) : NotFound();
+    return result.IsSuccess ? Ok(result) : NotFound(result);
   }
 
   [HttpGet("List/{userId}")]
@@ -53,7 +53,7 @@ public class TaskController : ControllerBase
   {
     var result = await _mediator.Send(new GetTaskListByUserIdQuery(userId), cancelToken);
 
-    return result is not null ? Ok(result) : NotFound();
+    return result.IsSuccess ? Ok(result) : NotFound(result);
   }
 
   [HttpPut("{id}")]
