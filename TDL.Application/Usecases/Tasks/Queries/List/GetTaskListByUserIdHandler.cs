@@ -1,6 +1,7 @@
 using MediatR;
 using TDL.Application.DTOs;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Application.Mappings;
 using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Tasks.Queries.List;
@@ -20,9 +21,7 @@ public class GetTaskListByUserIdHandler : IRequestHandler<GetTaskListByUserIdQue
 
     if (list == null) return ResponseDto<List<TaskDto>>.Fail(ResponseStatusCode.NotFound, "data not found");
 
-    var dtoList = list.Select(l =>
-            new TaskDto(l.Id, l.Title, l.Description, l.Deadline, l.IsCompleted, l.UserId)
-    ).ToList();
+    var dtoList = list.Select(l => l.Map()).ToList();
 
     return ResponseDto<List<TaskDto>>.Success(ResponseStatusCode.OK, "data found", dtoList);
   }

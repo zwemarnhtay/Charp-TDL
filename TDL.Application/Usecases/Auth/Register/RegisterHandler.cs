@@ -1,6 +1,7 @@
 using MediatR;
 using TDL.Application.DTOs;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Application.Mappings;
 using TDL.Domain.Entities;
 using TDL.Domain.Enums;
 
@@ -26,15 +27,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<User
       return ResponseDto<UserDto>.Fail(ResponseStatusCode.Conflict, "this email has already registered");
     }
 
-    var user = new UserEntity
-    {
-      Id = Guid.NewGuid().ToString(),
-      Name = request.Name,
-      Email = request.Email,
-      Password = request.Password,
-    };
-
-    var result = await _repository.CreateAsync(user, cancellationToken);
+    var result = await _repository.CreateAsync(request.Map(), cancellationToken);
 
     if (result is Result.failed)
     {

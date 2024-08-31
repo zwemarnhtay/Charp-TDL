@@ -1,6 +1,7 @@
 using MediatR;
 using TDL.Application.DTOs;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Application.Mappings;
 using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Auth.Login;
@@ -23,7 +24,6 @@ public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
       return ResponseDto<UserDto>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
     }
 
-    var dto = new UserDto(account.Id, account.Name, account.Email, account.Password);
-    return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "data found", dto);
+    return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "data found", account.Map());
   }
 }

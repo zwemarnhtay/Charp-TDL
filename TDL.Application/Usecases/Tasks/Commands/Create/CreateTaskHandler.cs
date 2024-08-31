@@ -1,6 +1,7 @@
 using MediatR;
 using TDL.Application.DTOs;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Application.Mappings;
 using TDL.Domain.Entities;
 using TDL.Domain.Enums;
 
@@ -17,17 +18,7 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, ResponseDto<
 
   public async Task<ResponseDto<TaskDto>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
   {
-    var task = new TaskEntity
-    {
-      Id = Guid.NewGuid().ToString(),
-      Title = request.Title,
-      Description = request.Description,
-      Deadline = request.Deadline,
-      IsCompleted = false,
-      UserId = request.UserId,
-    };
-
-    var result = await _taskRepository.CreateAsync(task, cancellationToken);
+    var result = await _taskRepository.CreateAsync(request.Map(), cancellationToken);
 
     if (result != Result.success)
     {

@@ -1,6 +1,7 @@
 using MediatR;
 using TDL.Application.DTOs;
 using TDL.Application.Interfaces.Repositories;
+using TDL.Application.Mappings;
 using TDL.Domain.Entities;
 using TDL.Domain.Enums;
 
@@ -21,8 +22,6 @@ public class GetTaskByIdHandler : IRequestHandler<GetTaskByIdQuery, ResponseDto<
 
     if (task is null) return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "data not found");
 
-    var data = new TaskDto(task.Id, task.Title, task.Description, task.Deadline, task.IsCompleted, task.UserId);
-
-    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "data found", data);
+    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "data found", task.Map());
   }
 }
