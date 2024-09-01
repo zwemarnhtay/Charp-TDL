@@ -1,21 +1,24 @@
 using MediatR;
 using TDL.Application.DTOs;
+using TDL.Application.Helpers;
 using TDL.Application.Interfaces.Repositories;
 using TDL.Application.Mappings;
 using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Auth.Login;
 
-public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
+public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<String>>
 {
   private readonly IUserRepository _userRepository;
+  private readonly JwtGenerator _jwtGenerator;
 
-  public LoginHandler(IUserRepository userRepository)
+  public LoginHandler(IUserRepository userRepository, JwtGenerator jwtGenerater)
   {
     _userRepository = userRepository;
+    _jwtGenerator = jwtGenerater;
   }
 
-  public async Task<ResponseDto<UserDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto<String>> Handle(LoginCommand request, CancellationToken cancellationToken)
   {
     try
     {
@@ -23,18 +26,19 @@ public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
 
       if (account == null || request.password != account.Password)
       {
-        return ResponseDto<UserDto>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
+        return ResponseDto<String>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
       }
 
-      return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "data found", account.Map());
+      string jwtToken = _jwtGenerator.GenerateToken(account.Map());
+      return ResponseDto<String>.Success(ResponseStatusCode.OK, "login success", jwtToken);
     }
     catch (TaskCanceledException ex)
     {
-      return ResponseDto<UserDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+      return ResponseDto<String>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
     }
     catch (Exception ex)
     {
-      return ResponseDto<UserDto>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
+      return ResponseDto<String>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
     }
   }
 }
