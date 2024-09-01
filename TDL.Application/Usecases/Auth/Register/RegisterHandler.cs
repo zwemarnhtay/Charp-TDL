@@ -20,20 +20,27 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<User
 
   public async Task<ResponseDto<UserDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
   {
-    var isExisted = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
-
-    if (isExisted != null)
+    try
     {
-      return ResponseDto<UserDto>.Fail(ResponseStatusCode.Conflict, "this email has already registered");
+      var isExisted = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
+
+      if (isExisted != null) return ResponseDto<UserDto>.Fail(ResponseStatusCode.Conflict,
+        "this email has already registered");
+
+      var result = await _repository.CreateAsync(request.Map(), cancellationToken);
+
+      if (result is not Result.success) return ResponseDto<UserDto>.Fail(ResponseStatusCode.BadRequest,
+        "failed to register new account");
+
+      return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "registered success");
     }
-
-    var result = await _repository.CreateAsync(request.Map(), cancellationToken);
-
-    if (result is Result.failed)
+    catch (TaskCanceledException ex)
     {
-      return ResponseDto<UserDto>.Fail(ResponseStatusCode.BadRequest, "failed to register new account");
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
     }
-
-    return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "registered success");
+    catch (Exception ex)
+    {
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
+    }
   }
 }

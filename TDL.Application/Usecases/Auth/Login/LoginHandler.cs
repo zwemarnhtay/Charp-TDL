@@ -17,13 +17,24 @@ public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
 
   public async Task<ResponseDto<UserDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
   {
-    var account = await _userRepository.GetByEmailAsync(request.email, cancellationToken);
-
-    if (account == null || request.password != account.Password)
+    try
     {
-      return ResponseDto<UserDto>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
-    }
+      var account = await _userRepository.GetByEmailAsync(request.email, cancellationToken);
 
-    return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "data found", account.Map());
+      if (account == null || request.password != account.Password)
+      {
+        return ResponseDto<UserDto>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
+      }
+
+      return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, "data found", account.Map());
+    }
+    catch (TaskCanceledException ex)
+    {
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+    }
+    catch (Exception ex)
+    {
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
+    }
   }
 }

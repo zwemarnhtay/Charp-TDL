@@ -7,5 +7,6 @@ public enum ResponseStatusCode
   BadRequest = 400,
   NotFound = 404,
   Conflict = 409, //already existed
+  RequestCanceled = 499,
   InternalServerError = 500
 }

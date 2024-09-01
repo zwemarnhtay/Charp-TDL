@@ -18,10 +18,21 @@ public class GetTaskByIdHandler : IRequestHandler<GetTaskByIdQuery, ResponseDto<
 
   public async Task<ResponseDto<TaskDto>> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
   {
-    var task = await _taskRepository.GetByIdAsync(request.Id, cancellationToken);
+    try
+    {
+      var task = await _taskRepository.GetByIdAsync(request.Id, cancellationToken);
 
-    if (task is null) return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "data not found");
+      if (task is null) return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "data not found");
 
-    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "data found", task.Map());
+      return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "data found", task.Map());
+    }
+    catch (TaskCanceledException ex)
+    {
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+    }
+    catch (Exception ex)
+    {
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.BadRequest, ex.ToString());
+    }
   }
 }

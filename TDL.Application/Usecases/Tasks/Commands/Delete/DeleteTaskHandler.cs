@@ -17,13 +17,21 @@ public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto<
 
   public async Task<ResponseDto<TaskDto>> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
   {
-    var result = await _TaskRepository.DeleteAsync(request.id, cancellationToken);
-
-    if (result == Result.failed)
+    try
     {
-      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "fail to delete");
-    }
+      var result = await _TaskRepository.DeleteAsync(request.id, cancellationToken);
 
-    return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "deleted success");
+      if (result == Result.failed) return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "fail to delete");
+
+      return ResponseDto<TaskDto>.Success(ResponseStatusCode.OK, "deleted success");
+    }
+    catch (TaskCanceledException ex)
+    {
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+    }
+    catch (Exception ex)
+    {
+      return ResponseDto<TaskDto>.Fail(ResponseStatusCode.BadRequest, ex.ToString());
+    }
   }
 }

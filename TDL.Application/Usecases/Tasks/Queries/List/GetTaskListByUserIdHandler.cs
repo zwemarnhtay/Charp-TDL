@@ -17,12 +17,23 @@ public class GetTaskListByUserIdHandler : IRequestHandler<GetTaskListByUserIdQue
 
   public async Task<ResponseDto<List<TaskDto>>> Handle(GetTaskListByUserIdQuery request, CancellationToken cancellationToken)
   {
-    var list = await _taskRepository.GetAllByUserIdAsync(request.UserId, cancellationToken);
+    try
+    {
+      var list = await _taskRepository.GetAllByUserIdAsync(request.UserId, cancellationToken);
 
-    if (list == null) return ResponseDto<List<TaskDto>>.Fail(ResponseStatusCode.NotFound, "data not found");
+      if (list == null) return ResponseDto<List<TaskDto>>.Fail(ResponseStatusCode.NotFound, "data not found");
 
-    var dtoList = list.Select(l => l.Map()).ToList();
+      var dtoList = list.Select(l => l.Map()).ToList();
 
-    return ResponseDto<List<TaskDto>>.Success(ResponseStatusCode.OK, "data found", dtoList);
+      return ResponseDto<List<TaskDto>>.Success(ResponseStatusCode.OK, "data found", dtoList);
+    }
+    catch (TaskCanceledException ex)
+    {
+      return ResponseDto<List<TaskDto>>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+    }
+    catch (Exception ex)
+    {
+      return ResponseDto<List<TaskDto>>.Fail(ResponseStatusCode.BadRequest, ex.ToString());
+    }
   }
 }
