@@ -1,0 +1,39 @@
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <i class="fa-solid fa-plus fa-lg"></i> Add new task
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">New Task</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="title">
+                </div>
+                <div class="mb-3">
+                    <label for="deadline">Deadline</label>
+                    <input type="datetime-local" class="form-control" id="deadline" placeholder="Deadline">
+                </div>
+                <div class="mb-3">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" placeholder="..." id="description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+  private TaskModel _task = new TaskModel();
+}
