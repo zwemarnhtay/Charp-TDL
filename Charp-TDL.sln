@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.Application", "TDL.Appl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.Infrastructure", "TDL.Infrastructure\TDL.Infrastructure.csproj", "{7FFC688A-1CF4-4221-83AC-D74C04FD2CD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.API", "TDL.API\TDL.API.csproj", "{335FCC0F-83FE-401C-95EC-05A9765CA998}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDL.API", "TDL.API\TDL.API.csproj", "{335FCC0F-83FE-401C-95EC-05A9765CA998}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDL.UI", "TDL.UI\TDL.UI.csproj", "{89EA22D6-2759-432D-A05B-7DA966DEA92C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{335FCC0F-83FE-401C-95EC-05A9765CA998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89EA22D6-2759-432D-A05B-7DA966DEA92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89EA22D6-2759-432D-A05B-7DA966DEA92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89EA22D6-2759-432D-A05B-7DA966DEA92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89EA22D6-2759-432D-A05B-7DA966DEA92C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
