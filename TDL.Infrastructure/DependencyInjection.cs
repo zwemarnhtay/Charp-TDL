@@ -35,8 +35,8 @@ public static class DependencyInjection
       opt.SaveToken = true;
       opt.TokenValidationParameters = new TokenValidationParameters
       {
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = issuer,

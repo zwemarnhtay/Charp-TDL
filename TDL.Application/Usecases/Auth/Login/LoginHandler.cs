@@ -7,18 +7,18 @@ using TDL.Domain.Enums;
 
 namespace TDL.Application.Usecases.Auth.Login;
 
-public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<String>>
+public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
 {
   private readonly IUserRepository _userRepository;
   private readonly JwtGenerator _jwtGenerator;
 
-  public LoginHandler(IUserRepository userRepository, JwtGenerator jwtGenerater)
+  public LoginHandler(IUserRepository userRepository, JwtGenerator jwtGenerator)
   {
     _userRepository = userRepository;
-    _jwtGenerator = jwtGenerater;
+    _jwtGenerator = jwtGenerator;
   }
 
-  public async Task<ResponseDto<String>> Handle(LoginCommand request, CancellationToken cancellationToken)
+  public async Task<ResponseDto<UserDto>> Handle(LoginCommand request, CancellationToken cancellationToken)
   {
     try
     {
@@ -26,19 +26,19 @@ public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<String>>
 
       if (account == null || request.password != account.Password)
       {
-        return ResponseDto<String>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
+        return ResponseDto<UserDto>.Fail(ResponseStatusCode.NotFound, "incorrect email or password");
       }
 
       string jwtToken = _jwtGenerator.GenerateToken(account.Map());
-      return ResponseDto<String>.Success(ResponseStatusCode.OK, "login success", jwtToken);
+      return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, jwtToken, account.Map());
     }
     catch (TaskCanceledException ex)
     {
-      return ResponseDto<String>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.RequestCanceled, ex.ToString());
     }
     catch (Exception ex)
     {
-      return ResponseDto<String>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
+      return ResponseDto<UserDto>.Fail(ResponseStatusCode.InternalServerError, ex.ToString());
     }
   }
 }

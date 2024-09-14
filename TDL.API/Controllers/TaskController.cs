@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TDL.Application.Usecases.Tasks.Commands.Create;
 using TDL.Application.Usecases.Tasks.Commands.Delete;
@@ -9,6 +10,7 @@ using TDL.Application.Usecases.Tasks.Queries.List;
 
 namespace TDL.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class TaskController : ControllerBase
