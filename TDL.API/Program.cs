@@ -12,24 +12,20 @@ string audience = builder.Configuration.GetSection("JWT:Audience").Value!;
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
-//builder.Services.AddAuthentication(x =>
-//{
-//  x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//  x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//  x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//}).AddJwtBearer(x =>
-//{
-//  x.TokenValidationParameters = new TokenValidationParameters
-//  {
-//    ValidateIssuer = true,
-//    ValidateAudience = true,
-//    ValidateLifetime = true,
-//    ValidateIssuerSigningKey = true,
-//    ValidIssuer = issuer,
-//    ValidAudience = audience,
-//    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-//  };
-//});
+//to enable CORS in blazor web app
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                      policy.WithOrigins("https://localhost:7092",
+                                            "http://localhost:5096")
+                             .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                             .AllowAnyHeader();
+                    });
+});
 
 builder.Services.AddAuthorization();
 
@@ -48,6 +44,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//for CORS enable
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 
