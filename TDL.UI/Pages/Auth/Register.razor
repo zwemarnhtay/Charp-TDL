@@ -1,7 +1,8 @@
 @layout AuthLayout
 @page "/register"
 @using System.ComponentModel.DataAnnotations
-@inject NavigationManager Navigator
+@inject NavigationManager navigator
+@inject AuthService authService;
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -50,14 +51,20 @@
 @code {
     private RegisterModel registerModel = new RegisterModel();
 
-    private void RegisterSubmit()
+    private async Task RegisterSubmit()
     {
-        //
+        var response = await authService.RegisterAsync(registerModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Registered success");
+            navigator.NavigateTo("/");
+        }
 
     }
 
     private void ToLogin()
     {
-        Navigator.NavigateTo("/");
+        navigator.NavigateTo("/");
     }
 }
