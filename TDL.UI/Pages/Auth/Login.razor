@@ -44,7 +44,7 @@
     {
         var response = await authService.LoginAsync(loginModel);
 
-        if (response.IsSuccessStatusCode)
+        if (response is true)
         {
             Console.WriteLine("Login success");
             navigator.NavigateTo("/task");
