@@ -30,7 +30,7 @@ public class LoginHandler : IRequestHandler<LoginCommand, ResponseDto<UserDto>>
       }
 
       string jwtToken = _jwtGenerator.GenerateToken(account.Map());
-      return ResponseDto<UserDto>.Success(ResponseStatusCode.OK, jwtToken, account.Map());
+      return ResponseDto<UserDto>.SuccessLogin(ResponseStatusCode.OK, jwtToken, account.Map());
     }
     catch (TaskCanceledException ex)
     {

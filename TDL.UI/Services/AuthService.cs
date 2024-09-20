@@ -2,6 +2,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json;
 using TDL.UI.Models;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -26,15 +27,15 @@ public class AuthService
 
   public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
   {
-    var jsonBlog = JsonConvert.SerializeObject(model);
-    var content = new StringContent(jsonBlog, Encoding.UTF8, Application.Json);
+    var json = JsonConvert.SerializeObject(model);
+    var content = new StringContent(json, Encoding.UTF8, Application.Json);
     return await _httpClient.PostAsync("api/Auth/Register", content);
   }
 
   public async Task<bool> LoginAsync(LoginModel model)
   {
-    var jsonBlog = JsonConvert.SerializeObject(model);
-    var content = new StringContent(jsonBlog, Encoding.UTF8, Application.Json);
+    var json = JsonConvert.SerializeObject(model);
+    var content = new StringContent(json, Encoding.UTF8, Application.Json);
     var response = await _httpClient.PostAsync("api/Auth/Login", content);
 
     if (!response.IsSuccessStatusCode)
@@ -42,7 +43,13 @@ public class AuthService
       return false;
     }
 
-    string token = await response.Content.ReadAsStringAsync();
+    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+    var jsonDocument = JsonDocument.Parse(jsonResponse);
+    var root = jsonDocument.RootElement;
+
+    // Extract JWT token and other fields dynamically
+    var token = root.GetProperty("jwt").GetString();
 
     await _localStorage.SetItemAsync("Token", token);
     await _authStateProvider.GetAuthenticationStateAsync();

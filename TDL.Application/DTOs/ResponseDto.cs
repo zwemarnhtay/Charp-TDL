@@ -7,6 +7,7 @@ public class ResponseDto<T>
   public ResponseStatusCode StatusCode { get; set; }
   public bool IsSuccess { get; set; }
   public string Message { get; set; }
+  public string JWT { get; set; }
   public T Data { get; set; }
 
   public static ResponseDto<T> Success(ResponseStatusCode statusCode, string msg) =>
@@ -14,6 +15,9 @@ public class ResponseDto<T>
 
   public static ResponseDto<T> Success(ResponseStatusCode statusCode, string msg, T data) =>
     new ResponseDto<T> { IsSuccess = true, StatusCode = statusCode, Message = msg, Data = data };
+
+  public static ResponseDto<T> SuccessLogin(ResponseStatusCode statusCode, string jwt, T data) =>
+  new ResponseDto<T> { IsSuccess = true, StatusCode = statusCode, JWT = jwt, Data = data };
 
   public static ResponseDto<T> Fail(ResponseStatusCode statusCode, string msg) =>
     new ResponseDto<T> { IsSuccess = false, StatusCode = statusCode, Message = msg };

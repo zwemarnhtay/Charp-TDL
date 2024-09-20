@@ -1,3 +1,5 @@
+@inject NavigationManager navigator
+@inject TaskService taskService
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -12,28 +14,42 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">New Task</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="title">
-                </div>
-                <div class="mb-3">
-                    <label for="deadline">Deadline</label>
-                    <input type="datetime-local" class="form-control" id="deadline" placeholder="Deadline">
-                </div>
-                <div class="mb-3">
-                    <label for="description">Description</label>
-                    <textarea class="form-control" placeholder="..." id="description"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save </button>
-            </div>
+            <EditForm Model="@task" OnValidSubmit="@CreateTask">
+              <div class="modal-body">
+
+                      <div class="mb-3">
+                          <label for="title">Title</label>
+                          <InputText type="text" class="form-control" id="title" @bind-Value="task.Title" placeholder="title" />
+                      </div>
+                      <div class="mb-3">
+                          <label for="deadline">Deadline</label>
+                        <input type="datetime-local" class="form-control" id="deadline" @bind="task.Deadline" placeholder="Deadline" />
+                    </div>
+                      <div class="mb-3">
+                          <label for="description">Description</label>
+                        <InputTextArea class="form-control" placeholder="..." id="description" @bind-Value="task.Description" />
+                    </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save </button>
+              </div>
+             </EditForm>
         </div>
     </div>
 </div>
 
 @code {
-  private TaskModel _task = new TaskModel();
+    private TaskCreateModel task = new TaskCreateModel();
+
+    private async Task CreateTask()
+    {
+        var response = await taskService.CreateAsync(task);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("create success");
+            navigator.NavigateTo("/task");
+        }
+    }
 }
