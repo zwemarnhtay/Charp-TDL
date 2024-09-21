@@ -8,18 +8,18 @@ namespace TDL.Application.Usecases.Tasks.Commands.Delete;
 
 public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand, ResponseDto<TaskDto>>
 {
-  private readonly IRepository<TaskEntity> _TaskRepository;
+  private readonly IRepository<TaskEntity> _taskRepository;
 
   public DeleteTaskHandler(IRepository<TaskEntity> taskRepository)
   {
-    _TaskRepository = taskRepository;
+    _taskRepository = taskRepository;
   }
 
   public async Task<ResponseDto<TaskDto>> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
   {
     try
     {
-      var result = await _TaskRepository.DeleteAsync(request.id, cancellationToken);
+      var result = await _taskRepository.DeleteAsync(request.id, cancellationToken);
 
       if (result == Result.failed) return ResponseDto<TaskDto>.Fail(ResponseStatusCode.NotFound, "fail to delete");
 

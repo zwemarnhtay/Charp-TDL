@@ -60,4 +60,18 @@ public class TaskRepository : IRepository<TaskEntity>, ITaskRepository
     return Result.failed;
   }
 
+  public async Task<Result> CompleteAsync(string id, CancellationToken cancleToken)
+  {
+    var filter = Builders<TaskEntity>.Filter.Eq(t => t.Id, id);
+
+    var update = Builders<TaskEntity>.Update.Set(t => t.IsCompleted, true);
+
+    var result = await _tasks.UpdateOneAsync(filter, update, cancellationToken: cancleToken);
+
+    if (result.ModifiedCount > 0)
+    {
+      return Result.success;
+    }
+    return Result.failed;
+  }
 }

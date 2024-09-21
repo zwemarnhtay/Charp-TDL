@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TDL.Application.Usecases.Tasks.Commands.Complete;
 using TDL.Application.Usecases.Tasks.Commands.Create;
 using TDL.Application.Usecases.Tasks.Commands.Delete;
 using TDL.Application.Usecases.Tasks.Commands.Edit;
@@ -58,7 +59,7 @@ public class TaskController : ControllerBase
     return result.IsSuccess ? Ok(result) : NotFound(result);
   }
 
-  [HttpGet("List/{userId}")]
+  [HttpGet("{userId}/list")]
   public async Task<IActionResult> GetTaskList(string userId, CancellationToken cancelToken)
   {
     var result = await _mediator.Send(new GetTaskListByUserIdQuery(userId), cancelToken);
@@ -87,6 +88,15 @@ public class TaskController : ControllerBase
   public async Task<IActionResult> DeleteTask(string id, CancellationToken cancelToken)
   {
     var command = new DeleteTaskCommand(id);
+    var result = await _mediator.Send(command, cancelToken);
+
+    return result.IsSuccess ? Ok(result) : NotFound(result);
+  }
+
+  [HttpPut("{id}/complete")]
+  public async Task<IActionResult> CompleteTask(string id, CancellationToken cancelToken)
+  {
+    var command = new CompleteTaskCommand(id);
     var result = await _mediator.Send(command, cancelToken);
 
     return result.IsSuccess ? Ok(result) : NotFound(result);
