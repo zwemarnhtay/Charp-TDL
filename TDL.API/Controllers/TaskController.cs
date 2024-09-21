@@ -31,15 +31,23 @@ public class TaskController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> CreateTask(CreateTaskCommand request, CancellationToken cancelToken)
   {
-    var validator = await _createValidator.ValidateAsync(request, cancelToken);
 
-    if (!validator.IsValid)
+    var validationResult = await _createValidator.ValidateAsync(request, cancelToken);
+    if (!validationResult.IsValid)
     {
-      return BadRequest(validator.Errors);
+      return BadRequest(validationResult.Errors.Select(e => new { e.PropertyName, e.ErrorMessage }));
     }
-    var result = await _mediator.Send(request, cancelToken);
-
-    return result.IsSuccess ? Ok(result) : BadRequest(result);
+    try
+    {
+      var result = await _mediator.Send(request, cancelToken);
+      return result.IsSuccess
+          ? Ok(result)
+          : BadRequest(new { message = result.Message });
+    }
+    catch (Exception ex)
+    {
+      return StatusCode(500, new { message = "An unexpected error occurred while creating the task." });
+    }
   }
 
   [HttpGet("{id}")]

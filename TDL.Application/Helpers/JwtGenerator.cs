@@ -31,7 +31,7 @@ public class JwtGenerator
 
     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
     var creds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-    var expires = DateTime.UtcNow.AddMinutes(10);
+    var expires = DateTime.UtcNow.AddHours(7);
 
     var token = new JwtSecurityToken(
         issuer,

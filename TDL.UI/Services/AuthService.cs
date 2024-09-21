@@ -56,4 +56,9 @@ public class AuthService
 
     return true;
   }
+
+  public async Task LogoutAsync()
+  {
+    await _localStorage.RemoveItemAsync("Token");
+  }
 }

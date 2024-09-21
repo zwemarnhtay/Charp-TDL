@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -31,8 +32,8 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
     /*if (!string.IsNullOrEmpty(token))
     {*/
     identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
-    //_httpClient.DefaultRequestHeaders.Authorization =
-    //    new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
     /* }*/
 
     var user = new ClaimsPrincipal(identity);
@@ -41,12 +42,6 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
     NotifyAuthenticationStateChanged(Task.FromResult(state));
 
     return state;
-  }
-
-  public async Task<String> GetTokenAsync()
-  {
-    var token = await _localStorage.GetItemAsStringAsync("Token");
-    return token.Replace("\"", "");
   }
 
   private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)

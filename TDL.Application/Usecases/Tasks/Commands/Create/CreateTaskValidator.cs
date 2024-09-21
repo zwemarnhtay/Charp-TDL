@@ -12,8 +12,9 @@ public class CreateTaskValidator : AbstractValidator<CreateTaskCommand>
 
     RuleFor(task => task.Deadline)
       .NotEmpty()
-      .Must(d => d is DateTime)
-      .WithMessage("Deadline is required and must be date time");
+      .WithMessage("Deadline is required and must be date time")
+      .GreaterThanOrEqualTo(DateTime.Now)
+      .WithMessage("Deadline must be in the future");
 
     RuleFor(task => task.UserId)
       .NotEmpty()
