@@ -2,14 +2,12 @@
 @inject TaskService taskService
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#taskCreateModal">
     <i class="fa-solid fa-plus fa-lg"></i> Add new task
 </button>
 
 <!-- Modal -->
-@if (isFormVisible)
-{
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="taskCreateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -43,13 +41,9 @@
             </div>
         </div>
     </div>
-}
-
 
 @code {
     private TaskCreateModel task = new TaskCreateModel();
-
-    private bool isFormVisible = true;
 
     private async Task CreateTask()
     {
@@ -59,7 +53,7 @@
         {
             Console.WriteLine("create success");
 
-            isFormVisible = false;
+           // await jsRuntime.InvokeVoidAsync("hideModal", "#taskCreateModal");
         }
     }
 }
